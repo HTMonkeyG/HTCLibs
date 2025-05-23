@@ -1,2 +1,6 @@
 # Folders
 .vscode/
+
+# Wildcard files.
+*.o
+*.exe
