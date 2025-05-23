@@ -2,7 +2,7 @@
 #include <cfgmgr32.h>
 #include <stdlib.h>
 
-#include "aliases.h"
+#include "../utilities/aliases.h"
 #include "colorful-keyboard-led.h"
 
 typedef struct {

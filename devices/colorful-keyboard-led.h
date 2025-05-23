@@ -2,7 +2,7 @@
 #define __COLORFUL_KBLED_H__
 
 #include <windows.h>
-#include "utilities/aliases.h"
+#include "../utilities/aliases.h"
 
 #define IOCTL_SET_COLORFUL_KEYBOARD CTL_CODE(0x00000032, 0x0900, 0, 0)
 
