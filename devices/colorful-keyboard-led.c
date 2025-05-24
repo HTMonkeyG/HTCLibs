@@ -60,7 +60,7 @@ static i08 sendData(ColorfulKeyboardLED *kbled, i32 opCode, u08 *data, i32 size)
 
 /**
  * Initialize keyboard led handle.
- * @param kbled Pointer to handle struct.
+ * @param kbled Pointer to the handle.
  * @returns 0 if failed.
  */
 i08 kbled_init(ColorfulKeyboardLED *kbled) {
@@ -110,7 +110,7 @@ i08 kbled_init(ColorfulKeyboardLED *kbled) {
 
 /**
  * Set keyboard color.
- * @param kbled Pointer to handle struct.
+ * @param kbled Pointer to the handle.
  * @param color 8 bit color data in GRB format.
  * @returns 0 if failed.
  */
@@ -130,7 +130,7 @@ i08 kbled_setColor(ColorfulKeyboardLED *kbled, COLORREF color) {
 
 /**
  * Set keyboard led sleep time.
- * @param kbled Pointer to handle struct.
+ * @param kbled Pointer to the handle.
  * @param color Sleep time in seconds. Disable keyboard sleep by set to 0.
  * @returns 0 if failed.
  */
@@ -141,7 +141,7 @@ i08 kbled_setSleepTime(ColorfulKeyboardLED *kbled, u16 sleepTime) {
 
 /**
  * Set keyboard led brightness.
- * @param kbled Pointer to handle struct.
+ * @param kbled Pointer to the handle.
  * @param color Brightness.
  * @returns 0 if failed.
  */

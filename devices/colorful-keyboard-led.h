@@ -6,6 +6,8 @@
 
 #define IOCTL_SET_COLORFUL_KEYBOARD CTL_CODE(0x00000032, 0x0900, 0, 0)
 
+#define KBLED_SLEEP_DISABLED (0x0000)
+
 typedef struct {
   HANDLE hDevice;
 } ColorfulKeyboardLED;
