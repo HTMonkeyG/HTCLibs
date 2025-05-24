@@ -34,7 +34,6 @@ int main() {
   u32 color;
 
   kbled_init(&kbled);
-  wprintf(L"%s\n", kbled.devicePath);
 
   i = 0;
   while (1) {
