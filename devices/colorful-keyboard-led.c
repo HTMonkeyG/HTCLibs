@@ -20,35 +20,6 @@ static const u08 xmmword[16] = {
   0xAD, 0xD6, 0xDB, 0x71, 0xBD, 0xC0, 0xAF, 0xAD
 };
 
-// Get device path through GUID.
-static void getDevicePath(wchar_t *path) {
-  ULONG pulLen;
-  wchar_t *buffer;
-
-  while (
-    CM_Get_Device_Interface_List_SizeW(
-      &pulLen, (LPGUID)&GUID_ColorfulKeyboard, NULL, 0
-    ) == CR_SUCCESS
-  ) {
-    buffer = malloc(pulLen * sizeof(wchar_t));
-
-    if (!buffer)
-      break;
-
-    if (
-      CM_Get_Device_Interface_ListW(
-        (LPGUID)&GUID_ColorfulKeyboard, NULL, buffer, pulLen, 0
-      ) == CR_SUCCESS
-    ) {
-      wcscpy(path, buffer);
-      free(buffer);
-      break;
-    }
-
-    free(buffer);
-  }
-}
-
 // Send data to hardware driver.
 static i08 sendData(ColorfulKeyboardLED *kbled, i32 opCode, u08 *data, i32 size) {
   KeyboardData dataSent;
@@ -93,12 +64,35 @@ static i08 sendData(ColorfulKeyboardLED *kbled, i32 opCode, u08 *data, i32 size)
  * @returns 0 if failed.
  */
 i08 kbled_init(ColorfulKeyboardLED *kbled) {
+  ULONG pulLen;
+  wchar_t *buffer;
+
   if (!kbled)
     return 0;
 
-  getDevicePath(kbled->devicePath);
+  // Get device path through GUID.
+  while (
+    CM_Get_Device_Interface_List_SizeW(
+      &pulLen, (LPGUID)&GUID_ColorfulKeyboard, NULL, 0
+    ) == CR_SUCCESS
+  ) {
+    buffer = malloc(pulLen * sizeof(wchar_t));
+    if (!buffer)
+      break;
+
+    if (
+      CM_Get_Device_Interface_ListW(
+        (LPGUID)&GUID_ColorfulKeyboard, NULL, buffer, pulLen, 0
+      ) == CR_SUCCESS
+    )
+      break;
+
+    free(buffer);
+    buffer = NULL;
+  }
+
   kbled->hDevice = CreateFileW(
-    kbled->devicePath,
+    buffer,
     GENERIC_READ | GENERIC_WRITE,
     FILE_SHARE_READ | FILE_SHARE_WRITE,
     NULL,
@@ -106,9 +100,11 @@ i08 kbled_init(ColorfulKeyboardLED *kbled) {
     FILE_FLAG_OVERLAPPED | FILE_ATTRIBUTE_NORMAL,
     NULL
   );
+  free(buffer);
 
   if (kbled->hDevice == INVALID_HANDLE_VALUE)
     return 0;
+
   return 1;
 }
 
